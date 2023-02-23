@@ -173,5 +173,6 @@ One thing you might want to do though, is to set up automatic mean measurements 
 I encourage you to build a different circuit. Don’t exceed three branching nodes to keep the calculations simple. Try to calculate voltage drops and compare them with measured values.
 
 Written by Luka Pogačnik
+Edited by Andraž Pirc
 
 This teaching material was created by `Red Pitaya <https://www.redpitaya.com/>`_ & `Zavod 404 <https://404.si/>`_ in the scope of the `Smart4All <https://smart4all.fundingbox.com/>`_ innovation project.
