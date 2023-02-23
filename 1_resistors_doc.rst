@@ -37,48 +37,43 @@ To solve a circuit that consists of more than one component, you will need to kn
 To put it simply, any current entering a node must also leave it. If the first law talks about current, logic would suggest that he second will be about voltage (KVL).
 
   *“The directed sum of the potential differences (voltages) around any closed loop is zero.”*
-
-If you have no idea what Mr. Kirchhoff meant, when he came up with his laws, don’t worry. It will become crystal clear when we take a look at examples later on. But first, we will take a look at a few equations and facts, that tend to make our lives easier when solving resistor circuits.
+If these concepts are still unclear, don't worry. We will clarify them through examples later on. Before that, we will explore some equations and facts that can simplify the process of solving resistor circuits.
 
 Some equations and facts
 -----------------------------
 
-When you only have one voltage source, you can always calculate any voltage drop or current by simplifying the circuit using the following two equations for equivalent substitute resistor. 
+If there is only one voltage source in a circuit, it can be simplified using two equations for equivalent substitute resistors. This can help to easily calculate the voltage drop or current and make complex circuits easier to analyze.
 
   .. math:: R_{S_{series}} = R_1 + R_2
 
   .. math:: \frac{R_{S_{parallel}}}{1} = \frac{1}{R_1} + \frac{1}{R_2}
 
-Once you reach the circuit that only consists of one voltage (or current) source and one substitute resistor, you can trace the simplification steps backwards, calculating branch voltages and currents as you go along.
-Here you will need to know what happens to currents and voltages when you branch out. If substitute resistor is split into multiple parallel resistors, voltage drop across them remains the same. In fact, voltage drop between two nodes must remain the same no matter how you get between them (this comes from KVL).
-Current often behaves somewhat inversely to voltage, and as such, it remains the unchanged when a substitute resistor is split into multiple series resistors.
-If substitute resistor is split into series resistors, voltage is split among them proportionally to their resistance. We won’t go into details why that is, so an equation will have to suffice.
+When you have a circuit with only one voltage or current source and one substitute resistor, you can simplify the circuit and then work backwards to calculate the branch voltages and currents. It's important to understand what happens to currents and voltages when you branch out. If the substitute resistor is split into parallel resistors, the voltage drop across them remains the same. In contrast, when the substitute resistor is split into series resistors, the voltage is divided among them proportionally to their resistance. This is due to the behavior of current, which remains unchanged when a substitute resistor is split into multiple series resistors. While this may sound complicated, knowing these principles can help you analyze complex circuits.
 
  .. math:: U_{R_x}=U_{R_{S_{series}}} \cdot \frac{R_x}{R_{S_{series}}}
 
-It will come as no surprise that current is split proportionally to resistor’s resistance when it’s split into multiple parallel ones. Here’s the equations.
+This statement means that it is expected that when a resistor is divided into multiple parallel resistors, the current flowing through each resistor is divided in proportion to their resistance. Here are the equations that represent this relationship.
 
   .. math:: I_{R_x} = I_{R_{S_{parallel}}} \cdot \frac{R_{S_{series}} - R_x}{R_{S_{series}}}
 
-It will come as no surprise, that the lesser the resistance, the more current wants to flow through it, and the greater the resistance, the bigger the voltage drop.
-Before we move on to measurements, two more things to remember. When solving circuits in steady state, capacitors act as an open circuit, and inductors act as a short circuit. Consider this as a useful side note and move on.
+It's not surprising that current prefers to flow through a path with lower resistance and the greater the resistance, the higher the voltage drop. Two more things to keep in mind when solving circuits in steady state are that capacitors act as an open circuit and inductors act as a short circuit.
 
 Practical example
 ---------------------
 
-You might be disappointed to learn that the circuit used in this example will be different from the one that was shown in the video. This is so that you can easily solve it by either using Kirchhoff’s laws or by substitution.
+The circuit we're going to use in this example is different from the one in the video, so you can solve it either by using Kirchhoff's laws or by substitution.
 
 .. image:: img/1_Circuit_full.png
    :name: schematic of the circuit
    :align: center
 
-Let’s assume that we are tasked by calculating voltage drop, current, and power dissipation on :math:`R_2`. We’ll first tackle this problem by substitution. Note that I am using “|” symbol to represent equivalent resistance of parallel resistor.
+Let's assume we need to calculate voltage drop, current, and power dissipation on a certain resistor. We can solve this problem by substitution. For parallel resistors, we can represent their equivalent resistance using the "|" symbol.
 
 .. image:: img/1_simplifications.png
    :name: process of simplifying the circuit
    :align: center
 
-To put it into numbers:
+Talking numbers, our goal is to calculate voltage drop, current, and power dissipation on a circuit. By using the substitution method, we did not have to calculate all voltage drops and currents. However, next, we will analyze the circuit using the more academic method. The circuit has two branching nodes, which means we will need two node equations (KCL). There are also three distinct current loops, and we will need one loop equation less (KVL).
 
   .. math:: I_0=\frac{U_0}{R_{S_{total}}} = \frac{U_0}{(R_1+(R_2 |(R_3+R_4))+R_5 )}=...
 
@@ -145,14 +140,17 @@ Unlike before, we are dealing with three distinct currents. This can be solved b
  .. math:: I_3=\frac{U_0}{\frac{R_3+R_4}{R_2}(R_1+R_2+R_5 )+(R_1+R_5 ) }
 
 And there you go, we now have an equation for :math:`I_3` that only relies on known constants. We only need to plug the values in and from there on, dominos will fall. Plugging :math:`I_3` into :math:`equation\;B`` yields :math:`I_2`. From there on, :math:`equation\;A` gives us :math:`I_1` and all of a sudden all currents are known. Lastly we can use :math:`equation\;L1` to get any voltage drop we desire and all left to do is to calculate the power, which is now one simple multiplication away.
-Was this more difficult than doing substitutions? Depends on who you ask. I solved the circuit both ways and don’t get me started on how much I hate calculating substitute resistance for parallel resistors. Besides, the second method yields all voltages and currents at once, which is what you will usually tasked with on the exams.
+Was this more difficult than doing substitutions? Depends on who you ask. We solved the circuit both ways and you chose the way that best suits you. Besides, the second method yields all voltages and currents at once, which is what you will usually tasked with on the exams.
 
 Hands on
 -------------
 
-You must have noticed that I shied away from using any numbers in my calculations. Let me tell you that I’ve been at university for such a long time that I’ve forgotten what equations with actual numbers even look like.
-Jokes aside, I shied away from numbers because, as you saw, we didn’t need them. Also in this hands on part, you will select your own resistors and measure voltages across them. You can select any resistors (but avoid going below 100 ohms so that nothing accidentally gets fried), and build the circuit on a breadboard as shown on the picture below. For U_0 you can choose between Red Pitaya’s supply pins. It can be 3.3 V, 5 V or even -4 V. Anything you fancy!
+When working with circuits, it's common to use equations to solve for voltage, current, and power. In this experiment, we will be building a circuit with Red Pitaya and measuring voltage across resistors to test our calculations.
 
+To get started, select resistors of your choice, but make sure they are not below 100 ohms to avoid any potential damage. Once you have your resistors, build the circuit on a breadboard as shown in the picture provided.
+
+Now, you can choose the voltage source for U_0 from Red Pitaya's supply pins. You have the option to use 3.3 V, 5 V, or even -4 V.
+  
 .. image:: img/1_Extension_connector.png
    :name: Red Pitaya's pinout
    :align: center
@@ -164,7 +162,7 @@ Since we are dealing with DC signals, you don’t need to hook up the alligator 
    :name: assembled circuit and hooked up board
    :align: center
 
-One thing you might want to do though, is to set up automatic mean measurements on both channels to make reading voltage easier (MEAS -> Operator = MEAN -> DONE).
+One thing you might want to do, is to set up automatic mean measurements on both channels to make reading voltage easier (MEAS -> Operator = MEAN -> DONE).
 
 .. image:: img/1_scope_cap_2.png
    :name: oscilloscope window
