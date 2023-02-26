@@ -3,7 +3,7 @@ Superposition
 
 Introduction
 ------------------
-Because I know that you’ve more than likely had enough of all the OpAmps and filters and OpAmp filters and such, we will be making a break from all those fancy circuits and components, and focus on the basics. We will take a look at a trick, that can be used with linear circuits with multiple voltage or signal sources, the superposition.
+Let's take a break from OpAmps, filters, and other complex circuits and focus on a fundamental technique used in linear circuits with multiple voltage or signal sources: superposition.
 
 .. raw:: html
 
@@ -41,19 +41,21 @@ Ok, this wasn’t so bad, how about the loops?
 	.. math:: I_1 (R_2-\frac{(R_2+R_3)(R_1+R_2)}{R_3})=U_2-\frac{R_2+R_3}{R_3}  U_1
 	.. math:: I_1 = \frac{U_2-\frac{R_2+R_3}{R_3}  U_1}{R_2-\frac{(R_2+R_3)(R_1+R_2)}{R_3}}
 
-Had enough? Because I did. Luckily this is all we need. Let’s say that all resistors were 100 ohms, U1 was 5V and U2 was 3.3V. Plugging those numbers in above equations we get the following resistor currents:
+Luckily this is all we need. Let’s say that all resistors were 100 ohms, U1 was 5V and U2 was 3.3V. Plugging those numbers in above equations we get the following resistor currents:
 
 	.. math:: I_1=22.3 mA
 	.. math:: I_2=27.7 mA
 	.. math:: I_3=5.3 mA
 
-Since all resistors are a hundred ohms, the voltage drops on resistors are just current through a resistor times one hundred.
+Since all resistors are 100 ohms, the voltage drops on resistors are just current through a resistor times one hundred.
 
 A better alternative
 ---------------------------
-If you skipped all the calculations in last chapter, I can’t blame you. They were everything but fun. And that was for a very simple circuit with two voltage sources and three resistors, just think what would happen if we had any more components!
-Luckily there is a better way. We call it superposition. If a circuit is linear (this means that output can be written in the form of :math:`a \cdot U_1+b \cdot U_2+...+x \cdot I_1+y \cdot I_2+...=X`), we can analyze the circuit with only one source connected at a time. We do that for all sources and sum up the results to get the full output. This is known as superposition.
-Note that “disconnection” means a different thing for voltage and current source. Voltage source gets replaced by an open circuit, while a current source is replaced by a short circuit as depicted below.
+If you skipped all the calculations in the last chapter, I don't blame you. They were anything but fun. And that was for a very simple circuit with two voltage sources and three resistors. Just imagine what would happen if we had even more components!
+
+Fortunately, there is a better way: superposition. If a circuit is linear (meaning that the output can be written in the form of :math: 'a * U1 + b * U2 + ... + x * I1 + y * I2 + ... = X'), we can analyze the circuit with only one source connected at a time. We do this for all sources and then sum up the results to get the full output. This is known as superposition.
+
+Note that "disconnection" means something different for voltage and current sources. A voltage source is replaced by an open circuit, while a current source is replaced by a short circuit, as shown below.
 
 .. image:: img/6_disconnection.png
 	:name: correct disconnection modes
@@ -85,7 +87,7 @@ There is always an experiment. But this one will be extra simple. Build a circui
 	:name: experimental setup
 	:align: center
 
-Since this is a DC circuit with no AC stimulation, channels 1 and 2 will be just straight lines, effectively acting as voltage meters. Voltage drop between nodes can be automatically calculated by selecting MATH->Operator = “minus“->ENABLE. It would also be wise to add automatic measurements on all signals by clicking MEAS->Operator = “MEAN” ->DONE. Do this for all signals, IN1, IN2, and MATH. You can now play around with analyzing this circuit. Or maybe you would like to build a fancier one and play around with it. Red Pitaya has one more voltage output pin, -4V, hint hint…
+As this circuit operates solely on DC signals, channels 1 and 2 will remain constant, effectively serving as voltage meters. To calculate the voltage drop between nodes, select MATH->Operator = “minus“->ENABLE. Additionally, it is recommended to add automatic measurements to all signals by clicking MEAS->Operator = “MEAN” ->DONE. This should be done for IN1, IN2, and MATH signals. With these measurements set up, the circuit can be analyzed and manipulated as desired. For those interested in experimenting with more complex circuits, it is worth noting that Red Pitaya offers an additional voltage output pin, -4V, which can be utilized in circuit design.
 
 .. image:: img/6_meas.png
 	:name: measurement
@@ -93,8 +95,9 @@ Since this is a DC circuit with no AC stimulation, channels 1 and 2 will be just
 
 Conclusion
 ------------------------
-Superposition is a powerful tool for analyzing linear circuits. Whenever possible, it will be an easier alternative to “standard” calculations. Disconnect all but one source, calculate whatever you want to calculate, rinse and repeat for other sources. We will explore a practical application of superposition in next course.
+Superposition is a valuable technique for analyzing linear circuits, providing an easier alternative to standard calculations wherever possible. To use superposition, we disconnect all but one source and calculate the output, then repeat for the other sources and sum up the results to get the final output. In the next course, we will explore a practical application of superposition.
 
 Written by Luka Pogačnik
+Editted by Andraž Pirc
 
 This teaching material was created by `Red Pitaya <https://www.redpitaya.com/>`_ & `Zavod 404 <https://404.si/>`_ in the scope of the `Smart4All <https://smart4all.fundingbox.com/>`_ innovation project.
