@@ -150,8 +150,7 @@ Some differences can be attributed to idealized graph being oversimplified, some
 	:name: high pass filter bode plot
 	:align: center
 
-All the differences listed before are still present. Most notable among them is the fact that this time the corner frequency is too high. The reasons are the same as before.
-This brings us to the conclusion. You now know how to design low and high pass filters, are familiar with their idealized characteristics and have a basic understanding of how reality differs from idealizations.
+It is important to note that the image does not explicitly state that the probes used in this setup must be in x1 mode and the signal output must have the lowest possible resistance. Using oscilloscope probes in place of a cable is not recommended for this purpose. To ensure proper calibration, the "calibrate" button on Red Pitaya's bode analyzer can be used as a fail-safe measure.
 
 Written by Luka Pogačnik
 
