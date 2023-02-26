@@ -13,12 +13,12 @@ The objective of this activity is to brush up on your existing knowledge about K
 
 Background
 ----------------
-We will kick this lesson off by taking a look at the basic equation, you will need to know if you ever wanted to tinker with electronics.
+To begin this lesson, we will introduce you to a fundamental equation that is necessary for anyone interested in electronics.
   
   .. math:: U=R \cdot I
 
 
-This equation is the backbone of resistor circuits. Note that “a resistor circuit” is every circuit that you leave untouched for long enough, if there are no active elements. The second equation that comes in handy in such circuits is the one, which describes power dissipation on any resistor.
+This equation serves as the foundation of resistor circuits, which includes any circuit that does not have active elements and remains unchanged for an extended period. Another equation that is useful in such circuits is the one that describes power dissipation on any resistor.
 
   .. math:: P=U \cdot I
 
@@ -30,13 +30,13 @@ With this out of the way, we can move on to…
 
 Kirchhoff’s laws
 ---------------------
-To solve a circuit that consists of more than one component, you will need to know two more things, also known as Kirchhoff’s laws.  Kirchhoff’s current law (KCL):
+In order to solve a circuit that consists of multiple components, it is important to understand Kirchhoff's laws, which include Kirchhoff's current law (KCL) and Kirchhoff's voltage law (KVL).
 
-  *“The algebraic sum of currents in a network of conductors meeting at a point is zero. “*
+  *“KCL states that the algebraic sum of currents in a network of conductors meeting at a point is zero. Simply put, any current entering a node must also exit the same node. “*
 
-To put it simply, any current entering a node must also leave it. If the first law talks about current, logic would suggest that he second will be about voltage (KVL).
+If the first law talks about current, logic would suggest that the second law will be about voltage (KVL).
 
-  *“The directed sum of the potential differences (voltages) around any closed loop is zero.”*
+  *“KVL states that the directed sum of the potential differences (voltages) around any closed loop is zero.”*
 If these concepts are still unclear, don't worry. We will clarify them through examples later on. Before that, we will explore some equations and facts that can simplify the process of solving resistor circuits.
 
 Some equations and facts
@@ -73,7 +73,7 @@ Let's assume we need to calculate voltage drop, current, and power dissipation o
    :name: process of simplifying the circuit
    :align: center
 
-Talking numbers, our goal is to calculate voltage drop, current, and power dissipation on a circuit. By using the substitution method, we did not have to calculate all voltage drops and currents. However, next, we will analyze the circuit using the more academic method. The circuit has two branching nodes, which means we will need two node equations (KCL). There are also three distinct current loops, and we will need one loop equation less (KVL).
+To calculate voltage drop, current, and power dissipation in a circuit, we can use the substitution method to avoid calculating all voltage drops and currents. However, we will now analyze the circuit using a more formal method. The circuit has two branching nodes, so we will need to use two node equations based on Kirchhoff's Current Law (KCL). Additionally, there are three current loops in the circuit, but we will only need to use one loop equation based on Kirchhoff's Voltage Law (KVL).
 
   .. math:: I_0=\frac{U_0}{R_{S_{total}}} = \frac{U_0}{(R_1+(R_2 |(R_3+R_4))+R_5 )}=...
 
@@ -83,8 +83,7 @@ Talking numbers, our goal is to calculate voltage drop, current, and power dissi
 
   .. math:: P_{R_2} = U_{R_2} \cdot I_{R_2}=...
 
-Note that there was no need to calculate all voltage drops and currents to reach our goal.
-Next we will take a look at the more academic method. First we have to analyse the circuit. It has two branching nodes, which means we will need two node equations (KCL). We can also find three distinct current loops, and we will need one loop equation less (KVL).
+It is important to note that our goal of calculating voltage drop, current, and power dissipation in the circuit can be achieved without calculating all voltage drops and currents. However, to analyze the circuit using a more academic method, we must first identify its characteristics. The circuit contains two branching nodes, which requires us to apply two node equations based on Kirchhoff's Current Law (KCL). Furthermore, the circuit contains three distinct current loops, necessitating one less loop equation based on Kirchhoff's Voltage Law (KVL).
 
 .. image:: img/1_loops_and_nodes.png
    :name: loops and nodes
@@ -97,17 +96,17 @@ Let’s write them down.
   .. math:: B: \;\;\; I_5-I_2-I_4=0
 
 I would like to mention that you should immediately see from the schematic that we have redundantly many currents. :math:`I_s`, :math:`I_1`, and :math:`I_5` are exactly the same, so are :math:`I_3` and :math:`I_4`.
-Moving along the KVL loops, we must be adding any voltage that we hit from the + side, and subtracting those that we hit from the -.
+As we progress through the loops in the circuit using Kirchhoff's Voltage Law (KVL), we must add any voltage encountered from the positive side and subtract any voltage encountered from the negative side.
 
   .. math:: L1: \;\;\; U_{R_1} + U_{R_2} + U_{R_5} - U_0 = 0
 
   .. math:: L2: \;\;\; U_{R_3} + U_{R_4} - U_{R_2} = 0
 
-Let’s first take a look at what we can do with the two node equations. First we can substitute redundant currents in B with the ones from A:
+We can utilize the two node equations, based on Kirchhoff's Current Law (KCL), to simplify the analysis of the circuit. Specifically, we can substitute redundant currents in node B with those from node A to simplify the equations.
 
   .. math:: I_5 - I_2 - I_4 = 0  \rightarrow  I_2 + I_3 - I_1 = 0
 
-Keen eyed among you will notice that after this transformation, equations A and B are the same equation. That makes things easy as we can simply express one of the currents as a function of the other two and move on to solving voltage equations.
+Observant readers will notice that, following this transformation, equations A and B are identical. This simplifies the analysis of the circuit, as we can express one of the currents in terms of the other two and proceed to solve for the voltage equations.
 
  .. math:: I_1 = I_2 + I_3
  .. math:: equation\;A
@@ -123,7 +122,7 @@ Voltage drops in voltage loops should be written as products of currents and res
  .. math:: I_2 = I_3\frac{R_3+R_4}{R_2}
  .. math:: equation\;B
 
-This one wasn’t too bad, let’s take a look at the other voltage loop:
+Let's now examine the other voltage loop in the circuit:
 
  .. math:: U_{R_1} + U_{R_2}+U_{R_5}-U_0=0
 
@@ -145,30 +144,33 @@ Was this more difficult than doing substitutions? Depends on who you ask. We sol
 Hands on
 -------------
 
-When working with circuits, it's common to use equations to solve for voltage, current, and power. In this experiment, we will be building a circuit with Red Pitaya and measuring voltage across resistors to test our calculations.
+In the context of circuit analysis, it is common to use equations to solve for voltage, current, and power. For this experiment, we will construct a circuit using Red Pitaya and measure the voltage across resistors to test our calculations.
 
-To get started, select resistors of your choice, but make sure they are not below 100 ohms to avoid any potential damage. Once you have your resistors, build the circuit on a breadboard as shown in the picture provided.
+To begin, select resistors with values of at least 100 ohms to avoid any potential damage. Once you have chosen your resistors, build the circuit on a breadboard according to the provided diagram.
 
-Now, you can choose the voltage source for U_0 from Red Pitaya's supply pins. You have the option to use 3.3 V, 5 V, or even -4 V.
+Next, choose the voltage source for U_0 from Red Pitaya's supply pins. You have the option to use 3.3 V, 5 V, or even -4 V depending on the requirements of your specific circuit.
   
 .. image:: img/1_Extension_connector.png
    :name: Red Pitaya's pinout
    :align: center
 
-With that done, you should hook the probes in 10x mode to Red Pitaya and fire up the oscilloscope app. Don’t forget to set the x10 attenuation in software as well! 
-Since we are dealing with DC signals, you don’t need to hook up the alligator clips (they’re internally connected to Red Pitaya’s GND). You can now measure voltage on any node by connecting a probe to it.
+After constructing the circuit and selecting the appropriate voltage source, connect probes in 10x mode to Red Pitaya and launch the oscilloscope application. Make sure to set the x10 attenuation in the software as well.
+
+Since we are working with DC signals, it is not necessary to connect the alligator clips, as they are internally connected to Red Pitaya's GND. You can measure voltage on any node by connecting a probe to it.
 
 .. image:: img/1_vezje.jpg
    :name: assembled circuit and hooked up board
    :align: center
 
-One thing you might want to do, is to set up automatic mean measurements on both channels to make reading voltage easier (MEAS -> Operator = MEAN -> DONE).
+To make reading voltage easier, you may want to set up automatic mean measurements on both channels. This can be done by navigating to the "MEAS" menu and selecting "Operator = MEAN" for each channel, then selecting "DONE." This will display the average voltage for each channel, making it easier to read and interpret the measurements.
 
 .. image:: img/1_scope_cap_2.png
    :name: oscilloscope window
    :align: center
 
-I encourage you to build a different circuit. Don’t exceed three branching nodes to keep the calculations simple. Try to calculate voltage drops and compare them with measured values.
+I recommend constructing a circuit with no more than three branching nodes to simplify the calculations. Select resistors and connect them in a suitable configuration. Next, use Ohm's Law and Kirchhoff's Laws to calculate the expected voltage drops in the circuit.
+
+To verify the accuracy of the calculations, you can compare the calculated voltage drops with the measured values obtained by using probes connected to the circuit.
 
 Written by Luka Pogačnik
 Edited by Andraž Pirc
