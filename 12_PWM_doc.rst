@@ -3,8 +3,8 @@ Pulse Width Modulation
 
 Introduction
 -----------------
-DAC. I teased this acronym in the previous course, but what is it? DAC stands for Digital to Analogue Converter. As the name tells you, it converts digital values to analogue ones, usually voltage, sometimes current. DAC’s usefulness should be self-explanatory, but to state the obvious: whenever you need a way to convert digital signal into an analogue value, you use a DAC. But this was just a teaser for the next course. Today we’ll be looking at pulse width modulation (PWM), which may be, as we’ll explore today, used to generate a stable voltage.
-If you are reading this document, I am sure you have used PWM before. It is a handy tool for dimming light sources, adjusting power of small motors, and much more. PWM works by powering the device only part of the time, which reduces the average device output power. If repetition cycle is fast enough, we perceive only the average output power. But how is it generated? When can you use it? Can it be improved?
+In the previous course, we briefly touched upon the concept of DAC or Digital to Analogue Converter, which converts digital values into analogue ones, usually voltage or current. Its usefulness is apparent whenever there is a need to convert digital signals to analogue values. However, in this course, we will be focusing on Pulse Width Modulation (PWM), which can be used to generate a stable voltage.
+PWM is a familiar tool to most readers, and it is widely used for dimming light sources, adjusting power of small motors, and various other applications. It operates by supplying power to the device only a fraction of the time, thus reducing the average output power. If the repetition cycle is fast enough, the device's output power is perceived only as the average output power. In this course, we will explore how PWM is generated, when it can be used, and how it can be improved.
 
 
 .. raw:: html
@@ -19,18 +19,19 @@ If you are reading this document, I am sure you have used PWM before. It is a ha
 
 Digital PWM
 ------------------
-Here is how PWM is implemented in microcontrollers: they have a counter with predetermined size. On each clock cycle this counter is incremented by one. When counter overflows, it resets to zero and output is set high voltage level. Counting continues indefinitely. When counter matches a reference value, output drops to low voltage level. Varying the reference value effectively varies the output waveform.
+In microcontrollers, PWM is typically implemented using a counter with a fixed size. The counter is incremented by one on each clock cycle, and when it reaches its maximum value, it overflows and resets to zero, causing the output to be set to a high voltage level. This counting process continues indefinitely. When the counter matches a reference value, the output is switched to a low voltage level. By varying the reference value, it is possible to adjust the output waveform and achieve the desired pulse width modulation.
 
 .. image:: img/12_PWM.png
 	:name: digital PWM
 	:align: center
 
-As you can see in the picture above, varying the reference (blue) will affect pulse width (red). There are two edge cases though: when reference is zero and when reference is max. PWM cannot output 100%, because counter will always match reference value at least at max value. Inversely, it can easily output 0%, even though it is supposed to set output high when counter overflows. This is because output is set high and then immediately set low because it matches the reference.
-Digital PWM modulators have a finite resolution. Depending on the size of the internal counter, they can only output a predetermined amount of pulse shapes. If counter has four bits, as seen in image above, modulator will have sixteen different possible pulse widths (2^4). An eight bit counter would result in 256 possible pulse widths and so on.
+As depicted in the above image, changing the reference value (blue) affects the pulse width (red). However, there are two extreme cases to consider: when the reference is set to zero and when it is set to the maximum value. It is not possible for the PWM output to reach 100% duty cycle, as the counter will always match the reference value at the maximum value. Conversely, the output can easily reach 0% duty cycle, even though it is supposed to be set high when the counter overflows.
+
+It is important to note that digital PWM modulators have a finite resolution, which is determined by the size of the internal counter. For instance, if the counter has four bits, as shown in the above image, the modulator can produce sixteen different pulse widths (2^4). Similarly, an eight bit counter would allow for 256 possible pulse widths, and so on.
 
 Problems with fast response time
 -------------------------------------
-PWM can only be used for systems where response time is slow in regards to the PWM modulation frequency. As mentioned before, dimming LEDs is a good example, because human eye “framerate” isn’t that high. I know we’ve just built an analog PWM modulator, but let’s be lazy and use the Red Pitaya’s built in PWM generator for the next experiment.
+Pulse Width Modulation (PWM) is typically utilized in systems where the response time is slow compared to the PWM modulation frequency. For instance, dimming LEDs is an ideal use case since the human eye has a low "framerate". In this experiment, we will use the Red Pitaya's built-in PWM generator instead of building an analog PWM modulato
 Set the Red Pitaya to output a PWM at full amplitude on output1 and connect an LED with a 100 Ohm series resistor to it. To avoid the need to amplify the 1V amplitude signal, we can set the second output channel to output DC voltage at 0V and offset of -1. Connect this to the LED instead of GND.
 
 .. image:: img/12_PWM_LED_circuit.jpg
@@ -41,13 +42,13 @@ To verify that the system is working, change PWM setting and see if LED’s brig
 
 An unexpected experiment
 ---------------------------------
-With this setup, you can easily verify or debunk the myth that the human eye can’t see more than 30 Hz. Set the duty cycle to 50%, modulation frequency to 30 Hz and decide whether or not you can see any blinking.
-To spoil the fun, yes, you will be able to see the blinking. Quite easily in fact. That is unless you set the duty cycle to be above 90%, in which case the off period (dark time) is too short to notice. So if 30 Hz refresh rate produces a noticeable blinking, how is could the old film be shot at 24 Hz? The answer might surprise you. When projecting an old school film, the same image was actually flashed three times, resulting in an apparent 72 Hz refresh rate. That was enough to trick our brains in thinking that the image isn’t blinking (feel free to verify that statement). Apparently image processing part of our brain is not so picky and was able to reconstruct smooth motion as soon as image flashing problem was resolved. In fact, it can do it at even lower frame rates but we are getting off topic.
-One way to verify that LED is modulated with PWM is to move it rapidly. If it is modulated, LED will produce spots along its trajectory. One last fun off topic fact: our peripheral vision is more sensitive to pulsating light, feel free to try it out.
+By setting up the Red Pitaya with the LED and a 100 Ohm series resistor as described earlier, you can conduct an experiment to test whether the human eye can see blinking at a 30 Hz refresh rate with a 50% duty cycle. However, it should be noted that the blinking will be easily noticeable unless the duty cycle is above 90%, in which case the off period is too short to detect. This raises the question of how old films could be shot at 24 Hz without causing noticeable blinking. The answer is that when projecting the film, the same image was flashed three times, creating an apparent refresh rate of 72 Hz, which was sufficient to trick the human brain into perceiving smooth motion. In fact, the brain can even reconstruct smooth motion at lower frame rates.
+
+To verify that the LED is indeed modulated with PWM, you can move it rapidly and observe the spots produced along its trajectory. An interesting fact is that our peripheral vision is more sensitive to pulsating light, which can be tested out as well.
 
 Efficiency
 ---------------
-If flickering may be a problem, why would we even bother ising PWM? PWM is great, because it lets us achieve high efficiency. Since signal is either high or low (output transistors are fully opened or closed), resistive losses are minimized. Compare that with an OpAmp’s output stage, where the difference between supply voltage and output pin are wasted on output transistors. At high load currents, power losses add up. A quick reminder, power loss is equal to the product of the voltage drop and the current.
+Despite the potential issue of flickering, PWM has many advantages that make it a popular choice in various applications. One major advantage is its high efficiency. By rapidly switching the signal between high and low levels, the resistive losses are minimized as the output transistors are fully opened or closed. This is in contrast to an OpAmp's output stage where the voltage difference between the supply voltage and output pin is wasted on output transistors, resulting in significant power losses at high load currents. It is important to note that power loss is the product of voltage drop and current. Therefore, by minimizing voltage drop, PWM can greatly reduce power losses and increase efficiency.
 
 Analog PWM
 -----------------
@@ -76,8 +77,7 @@ And a screen capture:
 .. image:: img/12_analog_PWM_screencap.png
 	:name: analog PWM screen capture
 	:align: center
-
-But why do we need to use a DC signal as a reference voltage? No reason. We could easily set it to a sine wave. There is a limitation though. Sine wave’s amplitude has to be less than that of the sawtooth to achieve a proper modulation. Otherwise clipping would occur. I selected 0.45 V amplitude and 0.5V offset.
+There is no inherent requirement to use a DC signal as a reference voltage for PWM modulation. In fact, other waveforms, such as sine waves, can be used. However, there is a limitation to the amplitude of the sine wave. It must be less than the amplitude of the sawtooth waveform to ensure proper modulation without clipping. In this particular experiment, a sine wave with an amplitude of 0.45 V and a DC offset of 0.5 V was chosen as the reference voltage.
 
 .. image:: img/12_analog_PWM_sine_screencap.png
 	:name: analog PWM sine wave modulation screen capture
@@ -87,8 +87,9 @@ This screen capture is representative of how a PWM modulated sine wave should lo
 
 Smoothing the signal
 -------------------------
-As explored in the experiment, 100 Hz is enough to fool a human eye that an LED isn’t blinking. There are other applications where this won’t do. Just imagine that you wanted to use PWM to dim lights for shooting illuminating a movie set or, even worse, set a threshold voltage of a comparator. You might say that there is no reason to use PWM for this, but hey, PWM is cheap. Very cheap. Increasing PWM frequency and adding some signal filtering may save a lot of money. Filtering may be realized by an RC filter. Filter’s time constant must be significantly greater than that of PWM, otherwise smoothing will be insufficient. Keep in mind that a filtered PWM signal must pass through a voltage buffer (OpAmp follower) if it will be connected to anything other than a high impedance load.
-Let’s loose the LED for this example to make the circuit simpler. This means we can also get rid of output2 and simply connect an RC filter across output1’s connectors. Input1 is set to 10x and connected to the RC’s output.
+As demonstrated in the previous experiment, a 100 Hz PWM signal is sufficient to deceive the human eye into perceiving a constant light. However, in certain applications such as lighting for movie sets or setting a threshold voltage for a comparator, a higher PWM frequency may be required. Although PWM is a cost-effective solution, increasing the frequency and implementing signal filtering using an RC filter may lead to significant cost savings. It is crucial to note that the time constant of the filter must be much greater than that of PWM for adequate smoothing. Additionally, if the filtered PWM signal is connected to a load with a low impedance, it must pass through a voltage buffer (OpAmp follower) to prevent signal degradation.
+
+In this scenario, we can simplify the circuit by removing the LED and output2. We can connect an RC filter across the output1's connectors, and input1 can be set to 10x and linked to the output of the RC filter.
 
 .. image:: img/12_PWM_filtering_circuit.jpg
 	:name: smoothing PWM signal
