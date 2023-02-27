@@ -3,7 +3,7 @@ Digital to Analog Converter
 
 Introduction
 ---------------
-So if PWM is bandwidth limited, what can be used for digital synthesis of higher frequency signals? We have a few options and we will explore three options today (or four, depends on whether or not derivatives count). Without further ado, let’s take a look at the first DAC architecture.
+There are several options available for digital synthesis of higher frequency signals if PWM is limited in bandwidth. In this discussion, we will explore three options (or four, depending on whether or not derivatives are included). So, let's get started with the first DAC architecture, without any further delay.
 
 .. raw:: html
 
@@ -13,13 +13,15 @@ So if PWM is bandwidth limited, what can be used for digital synthesis of higher
 
 Resistor voltage divider
 -------------------------------
-The simplest-to-understand DAC s a string of resistors, that form a resistor divider with multiple output nodes. By selecting which of those voltages are connected to the output, we obtain a primitive but functional DAC. Image below shows a three bit DAC.
+The easiest DAC to understand is a string of resistors that creates a resistor divider with multiple output nodes. By selecting which of these voltages are connected to the output, we can obtain a basic but effective DAC. The image below depicts a three-bit DAC.
 
 .. image:: img/13_resistor_DAC_schematic.png
 	:name: resistor voltage divider DAC schematic
 	:align: center
 
-Laugh all you want, but this is a legitimate DAC. One huge drawback it has is that it requires a lot of resistors with same resistance. Any difference between their resistances results in nonlinearity. It requires :math:`2^N` resistors, where N is the number of bits in DAC. Let’s construct such DAC. Instead of using multiple switches and a decoder, we’ll be using a jumper wire, but in real application, you would use an analog multiplexer/demultiplexer such as 74HC4051, which takes care of switches and decoding.
+Although it may seem simplistic, the DAC that utilizes a string of resistors is a legitimate method for digital-to-analog conversion. However, it does have a significant drawback in that it requires a large number of resistors with the same resistance. Even slight differences in resistance between the resistors can result in nonlinearity in the output. In fact, this method requires 2^N resistors, where N is the number of bits in the DAC.
+
+To construct such a DAC, we can use a jumper wire instead of multiple switches and a decoder. However, in a real-world application, an analog multiplexer/demultiplexer such as 74HC4051 would be used to handle the switches and decoding.
 
 .. image:: img/13_resistor_divider_circuit.jpg
 	:name: resistor voltage divider DAC circuit
@@ -36,7 +38,7 @@ If you want, you can test this circuit yourself, but we won’t be losing any mo
 
 Binary weighted resistor DAC
 -----------------------------------
-Remember the chapters about analog addition OpAmp amplifiers and? I do, so let’s draw some inspiration from those chapters.
+Remember the chapters about analog addition OpAmp amplifiers? If not let's quickly recall the circuit.
 
 .. image:: img/7_OpAmp_adder.png
 	:name: OpAmp adder
@@ -44,7 +46,7 @@ Remember the chapters about analog addition OpAmp amplifiers and? I do, so let�
 
 	.. math:: U_{OUT} = -(U_1 \cdot \frac{R_2}{R_1} + U_2 \cdot \frac{R_2}{R_3})
 	
-Adding more input voltages and input resistors would just extend the equation. If input voltages can be only Uref or 0V, and we fix resistor values, equation becomes even simpler. In this example b0 through b3 represent bits which control state of resistors. 1 means Uref, and 0 means 0V.
+By adding more input voltages and input resistors, the equation for the output voltage would simply be extended. However, if the input voltages are fixed at either Uref or 0V, and the resistor values are fixed as well, the equation becomes simpler. In this example, b0 through b3 represent the bits that control the state of the resistors. A value of 1 for a bit means that the corresponding resistor is connected to the reference voltage Uref, while a value of 0 means that the corresponding resistor is connected to 0V.
 
 .. image:: img/13_binary_weighted_DAC_schematics.png
 	:name: binary weighted DAC schematic
@@ -52,7 +54,7 @@ Adding more input voltages and input resistors would just extend the equation. I
 
 	.. math:: U_{OUT} = - U_{ref} \cdot (b_0 + b_1 / 2 + n_2 / 4 + b_3 / 8) = -2 \cdot U_{ref} \cdot \frac{U_{4bit}}{16}
 
-So in this setup we basically connect a binary code of desired voltage to inputs and bam, analog representation of digital code is generated. The x2 factor in equation is present because I wanted to emphasize that the output voltage in this configuration approaches 2xUref.
+In this setup, we connect a binary code representing the desired voltage to the inputs of the resistor string, and an analog representation of the digital code is generated. It should be noted that the factor of 2 in the output voltage equation emphasizes that the output voltage in this configuration approaches 2 times the reference voltage (2xUref).
 
 Standard resistors
 ----------------------------
@@ -83,11 +85,11 @@ Instead of dedicating more time to obsolete or niche DAC architectures, let’s 
 	:name: R-2R DAC schematic
 	:align: center
 
-You will immediately notice that a R-2R resistor ladder consists of only two sizes of resistors, R and 2R. This also explains the network’s name. I skipped drawing switches for simplicity’s sake. In practice places marked with bits b0 through b4 would connect to GND or Uref. But how does this resistor ladder behave as a DAC? Depending on how trustworthy you consider me to be, you may accept my claim that output voltage is calculated as such:
+The R-2R resistor ladder is named after the two sizes of resistors it uses, R and 2R. The switches are omitted for simplicity in the diagram. In a practical implementation, the inputs marked with bits b0 through b4 would be connected to either GND or Uref. But how does this resistor ladder function as a DAC? The output voltage can be calculated as follows:
 
 	.. math:: U_{out} = U_{ref} \cdot (b_0 /2 + b_1 / 4 + n_2 / 8 + b_3 / 16)
 
-Or you can use superposition in conjunction with Thevenin’s theorem to verify my claim. A harder alternative would be to use superposition and brute force, but I won’t try to stop you.
+Or you can use superposition in conjunction with Thevenin’s theorem to verify. A harder alternative would be to use superposition and brute force, but I won’t try to stop you.
 Unlike the binary weighted DAC that we explored before, a R-2R network does not need an amplifier to output a voltage. Keep in mind though that a buffer is still required for driving low impedance loads. In spite of that we might sometimes want to use an amplifier. If we selected an inverting amplifier, knowing the networks output resistance is essential. A nice property of a R-2R ladder: it “folds” down on itself.
 
 .. image:: img/13_R2R_simplifications.png
@@ -111,11 +113,11 @@ Consider deriving a formula for R-2R DAC’s output voltage your homework and le
 	:name: R-2R DAC circuit
 	:align: center
 
-Keen eyed among you will have noticed that I opted to buffer the output voltage with an inverting amplifier with a gain of -1. This means that the output voltage is inverted to what we would expect (obviously), but probe the R-2R’s output and you will notice that it is… at zero volts… regardless of how you set the switches (bits)… Circuit obviously still works, because output after the inverting amplifier can be set with switches… It has to do with how an inverting amplifier works. Just give it a quick thought and you’ll understand. If you disconnect the inverting amplifier (or use a buffer instead), R-2R will behave as expected.
+An observant reader may have noticed that I chose to buffer the output voltage with an inverting amplifier with a gain of -1. As a result, the output voltage is inverted, but if you measure the R-2R's output, you'll notice that it's at zero volts regardless of how you set the switches (bits). This is because of how an inverting amplifier operates. If you disconnect the inverting amplifier or use a buffer instead, the R-2R will function as expected.
 
 Extra credits
 -------------------
-You may have noticed that this course didn’t show any screen captures of how the constructed DACs perform. That is because looking at horizontal lines is boring. If you want to see those DACs in action, I invite you to try them out yourself. One more thing you can do is to determine the output voltages of DACs that I showed throughout this article. You may have noticed that the switches were marked so that you can see their state more easily.
+This course did not include any screen captures of the constructed DACs' performance as analyzing horizontal lines can be uninteresting. However, you can witness the DACs in action by trying them out yourself. Additionally, you can also determine the output voltages of the DACs demonstrated in this article as the switches were labeled to make it easier to observe their state.
 
 Conclusion
 -------------------
